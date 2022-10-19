@@ -217,7 +217,7 @@ __ioremap_caller(resource_size_t phys_addr, unsigned long size,
 	 */
 	offset = phys_addr & ~PAGE_MASK;
 	phys_addr &= PHYSICAL_PAGE_MASK;
-	size = PAGE_ALIGN(last_addr+1) - phys_addr;
+	size = (PAGE_ALIGN(last_addr+1) & PHYSICAL_PAGE_MASK) - phys_addr;
 
 	retval = memtype_reserve(phys_addr, (u64)phys_addr + size,
 						pcm, &new_pcm);
