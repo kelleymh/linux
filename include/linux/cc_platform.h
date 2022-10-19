@@ -90,6 +90,18 @@ enum cc_attr {
 	 * Examples include TDX Guest.
 	 */
 	CC_ATTR_HOTPLUG_DISABLED,
+
+	/**
+	 * @CC_ATTR_EMULATED_DEVICES: Guest VM has emulated devices
+	 *
+	 * The platform/OS is running as a guest/virtual machine with
+	 * a paravisor in VMPL0 that emulates legacy devices like the
+	 * I/O APIC.  These emulated devices operate in the encrypted
+	 * portion of the guest physical address space.
+	 *
+	 * Examples include Hyper-V SEV-SNP guests using vTOM.
+	 */
+	CC_ATTR_EMULATED_DEVICES,
 };
 
 #ifdef CONFIG_ARCH_HAS_CC_PLATFORM
