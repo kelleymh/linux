@@ -78,7 +78,14 @@ static bool amd_cc_platform_has(enum cc_attr attr)
 
 static bool hyperv_cc_platform_has(enum cc_attr attr)
 {
-	return attr == CC_ATTR_GUEST_MEM_ENCRYPT;
+	switch (attr) {
+	case CC_ATTR_GUEST_MEM_ENCRYPT:
+	case CC_ATTR_MEM_ENCRYPT:
+	case CC_ATTR_ACCESS_IOAPIC_ENCRYPTED:
+		return true;
+	default:
+		return false;
+	}
 }
 
 bool cc_platform_has(enum cc_attr attr)
@@ -108,6 +115,7 @@ u64 cc_mkenc(u64 val)
 	switch (vendor) {
 	case CC_VENDOR_AMD:
 		return val | cc_mask;
+	case CC_VENDOR_HYPERV:
 	case CC_VENDOR_INTEL:
 		return val & ~cc_mask;
 	default:
@@ -121,6 +129,7 @@ u64 cc_mkdec(u64 val)
 	switch (vendor) {
 	case CC_VENDOR_AMD:
 		return val & ~cc_mask;
+	case CC_VENDOR_HYPERV:
 	case CC_VENDOR_INTEL:
 		return val | cc_mask;
 	default:
